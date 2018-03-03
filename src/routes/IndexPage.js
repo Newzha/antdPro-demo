@@ -1,16 +1,16 @@
 import React from 'react';
 import { connect } from 'dva';
-import styles from './IndexPage.css';
+import styles from './IndexPage.less';
+import { Button } from 'antd';
+import 'antd/lib/button/style';
 
 function IndexPage() {
   return (
     <div className={styles.normal}>
-      <h1 className={styles.title}>Yay! Welcome to dva!</h1>
-      <div className={styles.welcome} />
-      <ul className={styles.list}>
-        <li>To get started, edit <code>src/index.js</code> and save to reload.</li>
-        <li><a href="https://github.com/dvajs/dva-docs/blob/master/v1/en-us/getting-started.md">Getting Started</a></li>
-      </ul>
+    
+        {/* Button外层类名.myBtn会被加入hash值,但是组件内部的类名是预定义好的，不会有hash值
+        所以保证less文件中定义类名时无hash值 */}
+        <Button icon="search" className={styles.myBtn}>我是按钮</Button>
     </div>
   );
 }
