@@ -1,6 +1,15 @@
-//菜单配置文件
+//一般的项目中菜单和路由是集中在一块配置的,格式如下:
+// {
+//     name: 'xxx',
+//     icon: 'xxx',
+//     path: 'xxx',
+//     component:xxx,
+//     children:[xxx]
+// }
+// 配置完成后直接map循环输出Route组件
+// pro中将菜单和路由拆解，分menu和router两个文件管理
 
-//菜单对象的基本配置为
+//菜单对象的基本配置如下：
 // {
 //     authority:undefined, //权限
 //     icon:"dashboard",    //图标
