@@ -22,18 +22,27 @@
 //     ]
 // }
 
-// 两点需要注意的是1.权限接口数据请求到前端后怎样整合到菜单配置对象中？
-// 2.如何让用户在配置时快速生成path路径？
+
+// 1.如何让用户在配置时快速生成path路径：
 // 解决方案为用户在配置时只需要输入末级路径，完成path路径由工具方法补全
 // 代码见formatter函数。
+// 2.权限字段配置：
+// 父级配置了权限A，子级默认都具备权限A，如果子级单独配置了权限，则会
+// 覆盖父级的权限A
+// 3.菜单与路由配置合并时，只会取菜单配置中的name和authority属性合并到路由配置中
+// hideInMenu属性只是针对左侧导航相关的配置字段。
 
-function formatter(data, parentPath = '') {
+function formatter(data, parentPath = '', parentAuthority) {
     return data.map((item, index) => {
         const child = item.children;
         const path = `${parentPath}/${item.path}`;
-        const result = {...item, path};
+        const result = {
+          ...item,
+          path,
+          authority: item.authority || parentAuthority
+        };
         if(child && child.length > 0){
-            result.children = formatter(child, path);
+            result.children = formatter(child, path, item.authority);
         }
         return result;
     });

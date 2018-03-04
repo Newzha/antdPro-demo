@@ -3,7 +3,14 @@ import { Router, Route, Switch } from 'dva/router';
 import IndexPage from './routes/IndexPage';
 import { getRouterData } from './common/router'
 
-console.log(getRouterData());
+// console.log(getRouterData());
+
+class func extends React.Component{
+
+}
+
+func.aa = 'bb'
+console.log(func.aa);
 
 function RouterConfig({ history }) {
   return (

@@ -196,6 +196,7 @@ export const getRouterData = (app) => {
     };
 
     const menuData = getFlatMenu(getMenuData());
+
     let routerData = {};
     //循环routerConfig匹配menuData
     Object.keys(routerConfig).forEach((path) => {
@@ -214,6 +215,7 @@ export const getRouterData = (app) => {
         //menuData与routerConfig合并。用户新增的界面不在左侧菜单有入口的话直接
         //在routerConfig中配置即可。下面的语句不管能不能再menu中匹配到都会执行的。
         let router = routerConfig[path];
+        //权限和name配置以 router.js 为准。
         router = {
             ...router,
             name : router.name || menuItem.name,
