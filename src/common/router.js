@@ -61,23 +61,32 @@ const dynamicWrapper = (app, models, component) => {
       });
     };
   }
-  // () => import('module')
+
   return dynamic({
     app,
     models: () => models.filter(
       model => modelNotExisted(app, model)).map(m => import(`../models/${m}.js`)
     ),
-    // add routerData prop
-    component: () => {
-      if (!routerDataCache) {
+    //dynamic方法接收的component属性值为函数类型，函数返回import() promise对象。
+    component: () => {  
+      if (!routerDataCache) { //路由级别组件注入routerData。
         routerDataCache = getRouterData(app);
       }
       return component().then((raw) => {
         const Component = raw.default || raw;
+
+        //createElement api用来创建element元素，我们在组件中写的
+        //div等元素标签会被jsx-loader解析成React.createElement()
+        //所以说在组件中既可以使用React.createElement创建虚拟dom元素，也可以
+        //直接使用div标签的形式。
+
+        //两种实现方案：
         return props => createElement(Component, {
           ...props,
-          routerData: routerDataCache,
+          routerData: routerDataCache
         });
+
+        // return (props) => <Component {...props} routerData={routerDataCache}/>
       });
     },
   });
@@ -101,7 +110,7 @@ function getFlatMenu(menu) {
 export const getRouterData = (app) => {
     const routerConfig = {//初始路由配置对象
         '/': {
-          component: dynamicWrapper(app, ['user', 'login'], () => import('../layouts/BasicLayout')),
+          component: dynamicWrapper(app, [], () => import('../layouts/BasicLayout')),
         },
         // '/dashboard/analysis': {
         //   component: dynamicWrapper(app, ['chart'], () => import('../routes/Dashboard/Analysis')),
