@@ -75,10 +75,26 @@ const dynamicWrapper = (app, models, component) => {
       return component().then((raw) => {
         const Component = raw.default || raw;
 
-        //createElement api用来创建element元素，我们在组件中写的
-        //div等元素标签会被jsx-loader解析成React.createElement()
-        //所以说在组件中既可以使用React.createElement创建虚拟dom元素，也可以
-        //直接使用div标签的形式。
+        //createElement api用来创建element元素，JSX相当于createElement函数的语法糖。
+        //所以说直接写<div>我是div</div>和下面的DIV
+        //效果是相同的。<div>我是div</div>会被JSX解析调用
+        //createElement方法返回一个纯的javascript对象。
+        // var DIV = React.createElement('div',null,'我是div');
+        // console.log(DIV) //纯js对象，虚拟dom对象，用来映射真实dom元素
+        // return <div>
+        //     <div>我是div</div>
+        //     {DIV}
+        // </div>
+        //createElement方法接收的第一个参数还可以是组件类型。
+        //通过createElement实现增强组件。
+        // function Box({name, age}) {
+        //     return <div>box{name}{age}</div>
+        // }
+        // function HBox(props) {
+        //     //下面的代码等价于 return <Box name="lee"/>
+        //     return React.createElement(Box,{...props, name:'lee'})
+        // }
+        // <HBox age="20" />
 
         //两种实现方案：
         return props => createElement(Component, {
