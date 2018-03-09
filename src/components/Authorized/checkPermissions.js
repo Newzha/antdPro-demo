@@ -1,3 +1,5 @@
+import { CURRENT } from './index';
+
 function isPromise(obj) {
     return !!obj &&
     (typeof obj === 'object' || typeof obj === 'function') &&
@@ -52,4 +54,8 @@ const checkPermissions = (authority, currentAuthority, target, Exception) => {
     throw new Error('unsupported parameters');
 }
 
-export default checkPermissions;
+const check = (authority, target, Exception) => {
+    return checkPermissions(authority, CURRENT, target, Exception)
+}
+
+export default check;
