@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route, Switch } from 'dva/router';
+import { Router, Route, Switch } from 'react-router-dom';
 import { getRouterData } from './common/router'
 
 function RouterConfig({ history }) {
@@ -8,7 +8,8 @@ function RouterConfig({ history }) {
   return (
     <Router history={history}>
       <Switch>
-        <Route path="/" exact component={Base} />
+        <Route path="/" component={Base} />
+        <Route path="/user" component={() => <div>我是user</div>} />
       </Switch>
     </Router>
   );
