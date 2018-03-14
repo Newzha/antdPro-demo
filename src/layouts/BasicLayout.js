@@ -10,9 +10,10 @@ class AA extends React.Component{
             // <DocumentTitle>
             <div>
                 <div>我是主界面</div>
+
                 <AuthorizedRoute
                     path={'/'}
-                    component={() => <div>我是城管</div>}
+                    component={() => <div>我是测试成功界面</div>}
                     authority={['admin','user']}
                     redirectPath="/exception/403"
                 />
