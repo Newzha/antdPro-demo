@@ -122,9 +122,28 @@ function getFlatMenu(menu) {
     return obj;
 }
 
-//调用此函数，传入app对象，合并菜单和初始路由配置对象，生成最终的路由配置对象。
+//调用此函数，传入app对象，合并菜单和初始路由配置对象，生成合并后的路由配置对象。
+//合并后的路由配置对象还不能拿来直接生成Route标签，需要进一步处理：
+//'/list/search'  '/list/search/projects' '/list/search/articles'
+//projects和articles组件需要一个共同的顶部模块，因此将顶部组件抽象出来放在
+//两者的父组件中(也就是/list/search路由匹配的组件中),对于控制台dashboard来说，
+//analysis，monitor和workplace三个路由组件没有共同的模块组件，所以不需要
+//在父路由中抽象任何公用组件，也就不需要配置/dashboard
+
 export const getRouterData = (app) => {
-    const routerConfig = {//初始路由配置对象
+    //初始路由配置对象（平级结构设计）
+    //不做嵌套格式的原因：
+    //1.降低同菜单对象匹配时的复杂度。
+    //2.嵌套格式组件的层级关系比较明确，可以通过一次循环生成route组件.
+    //  但是父级route渲染的路由组件中一般都不会只包含子集route。所以这一部分配置要
+    //  交给用户。
+
+    //存在的问题：下面的路由配置对象格式，如果直接将
+    //此结构拿来渲染route标签的话，那么本该为父子配置的route成了平级配置。在渲染时会
+    //出现父子组件同级渲染的问题。
+    //解决方案：只渲染出配置了子路由的顶层父路由。用户可以在父路由中获取子路由信息来完成自定义配置。
+
+    const routerConfig = {
         '/': {
           component: dynamicWrapper(app, [], () => import('../layouts/BasicLayout')),
         },
